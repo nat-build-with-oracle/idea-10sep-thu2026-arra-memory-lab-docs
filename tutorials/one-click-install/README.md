@@ -3,8 +3,8 @@
 A walkthrough of deploying **arra-memory-lab** with the Deploy to Cloudflare button,
 captured step by step on 2026-09-10 against a real account.
 
-It is written from an install that **partly failed**, and the failure is documented
-rather than hidden — the button provisions everything correctly and then the deploy
+It goes all the way to a working claude.ai connector. It is written from an install
+that **partly failed** on the way, and the failure is documented rather than hidden — the button provisions everything correctly and then the deploy
 step dies for a reason you cannot guess from the README. [Jump to it](#step-8--the-deploy-fails-and-why).
 
 ---
@@ -326,17 +326,77 @@ Three things to check in that document:
 
 ## Step 10 — Connect it to claude.ai
 
-> Captured separately — see [arra-memory-lab-cloudflare-claude.md](../arra-memory-lab-cloudflare-claude.md)
-> in this repo for the consent-screen walkthrough.
+> [!NOTE]
+> **Connectors have moved.** `claude.ai/settings/connectors` now just says *"Connectors
+> have moved to Customize"*. The live location is **Customize → Connectors**
+> (`claude.ai/new#settings/customize-connectors`).
 
-1. In claude.ai, open **Settings → Connectors → Add custom connector**.
-2. Give it a name and the MCP URL: `https://<your-worker>/mcp`
-3. claude.ai reads `/.well-known/oauth-protected-resource`, discovers the
-   authorization server, and registers itself through
-   **Dynamic Client Registration** — you never paste a client ID or secret.
-4. It sends you to the Worker's approval page. Authorize with the
-   **`LAB_ACCESS_TOKEN`** you set in Step 7.
-5. Approve the scopes. claude.ai stores the token and the connector goes live.
+Open **Customize → Connectors**. Existing custom connectors are listed with type
+`Web` and a `Custom` badge:
+
+![The Connectors panel under Customize](images/12-claude-connectors.png)
+
+Use **Add** (top right) → **Add custom connector**:
+
+![The Add menu](images/13-add-menu.png)
+
+Fill in two fields — a display name and the MCP endpoint:
+
+![The Add custom connector dialog](images/14-add-custom-dialog.png)
+
+![The dialog filled in](images/15-add-custom-filled.png)
+
+> [!TIP]
+> The URL must be the **`/mcp`** path, not the Worker root. The dialog's own hint says
+> *"The HTTPS address where the server accepts MCP requests, for example
+> `https://mcp.example.com/mcp`."*
+
+Press **Continue**, and this is where the work from Step 9 pays off:
+
+![Authentication and OAuth client, both auto-detected](images/16-connector-added.png)
+
+claude.ai has already fetched your Worker's `.well-known` documents and **detected
+both settings for you** — note the two `Detected` badges:
+
+| Setting | Chosen automatically | Because |
+|---|---|---|
+| **Authentication: Always required** | `Detected` | the protected-resource document says auth is required |
+| **OAuth client: No client ID — register one automatically** | `Detected` | the AS metadata advertises a `registration_endpoint` (DCR) |
+
+That is the whole point of Dynamic Client Registration: *"Claude registers OAuth
+clients with the server as users connect."* **You never paste a client ID or secret.**
+If your server lacked DCR you would have to pick "Use your own OAuth client" and
+register by hand.
+
+Press **Add**. The connector is created but not yet authorized:
+
+![The connector added, showing Connect](images/17-connector-listed.png)
+
+Press **Connect**. Your own Worker serves the consent page — note the client id in
+the URL was minted by DCR seconds earlier:
+
+![The Worker's OAuth consent page](images/18-oauth-consent.png)
+
+Enter the **`LAB_ACCESS_TOKEN`** from Step 7 in **Lab passphrase** and press
+**Authorize MCP client**. The page states the security model plainly:
+
+> *"The browser passphrase is exchanged locally with this Worker; the MCP client
+> receives a revocable OAuth token, not the passphrase."*
+
+You are redirected back, and the connector is live — the button now reads
+**Disconnect**, and claude.ai has enumerated the tools and grouped them by risk:
+
+![Connected, with tool permissions by group](images/19-connected.png)
+
+| Group | Count | Tools |
+|---|---|---|
+| Read-only | 2 | `Trace get`, `Trace list` |
+| Write/delete | 2 | `Forget`, `Rebuild index` |
+| Other | 5 | `Lab info`, `Memory stats`, `Observe`, `Recall`, `Remember` |
+
+Each group defaults to **Needs approval**, and each tool can be set individually to
+always-allow, ask, or never. Leave the write/delete group on approval unless you have
+a reason not to.
 
 ### Connecting the CLIs
 
@@ -395,6 +455,8 @@ this.
 - [ ] D1 migrations applied with `wrangler d1 migrations apply DB --remote`
 - [ ] `/mcp` returns `401`, not `404`
 - [ ] Both `.well-known` documents return `200`
+- [ ] claude.ai shows **Authentication: Always required** and **register one automatically**, both `Detected`
+- [ ] Connector shows **Disconnect** and lists its tools by permission group
 
 ---
 
