@@ -1,0 +1,34 @@
+{
+  "observedAt": "2026-09-10T13:09:22.336Z",
+  "url": "https://arra-memory-lab.laris.workers.dev/api/info",
+  "status": 200,
+  "name": "Arra Memory Lab",
+  "version": "26.8.23-alpha.1432",
+  "mcp": {
+    "endpoint": "/mcp",
+    "sdk": "@modelcontextprotocol/server@2.0.0",
+    "wrapper": "agents@0.21.0 createMcpHandler",
+    "transport": "stateless Streamable HTTP",
+    "sessionMode": "one fresh MCP server per request; no Mcp-Session-Id",
+    "protocolEras": [
+      "2026-07-28 modern",
+      "2025 legacy compatibility"
+    ],
+    "tools": [
+      "lab_info",
+      "remember",
+      "recall",
+      "observe",
+      "forget",
+      "rebuild_index",
+      "memory_stats",
+      "trace_list",
+      "trace_get"
+    ]
+  },
+  "security": {
+    "mode": "OAuth 2.1 + PKCE/DCR for /mcp; static bearer for private /api routes",
+    "processing": "Create/rebuild sends memory chunks to Workers AI; semantic/hybrid recall sends query text. Keyword recall and previews do not call AI.",
+    "warning": "Lab only: one owner approval secret, no tenant isolation, rate limiting, or public-write safety controls."
+  }
+}
