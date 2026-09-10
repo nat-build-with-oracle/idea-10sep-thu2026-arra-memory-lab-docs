@@ -178,20 +178,52 @@ Executing user build command: npm run build
   ✓ built in 357ms
 ```
 
-Then `npm run deploy` runs. In `package.json`:
+Then `npm run deploy` runs, and there are **three independent reasons it cannot
+succeed** on the repo the button creates. All three were verified by running them.
+
+**1. `deploy` gates on a test runner Cloudflare does not have.**
 
 ```json
 "deploy": "npm run check && node scripts/deploy.mjs",
-"check":  "npm run version:check && node --test scripts/calver.test.mjs && bun test src/*.test.ts && tsc --noEmit && npm run build"
+"check":  "… && bun test src/*.test.ts && …"
 ```
 
-> [!CAUTION]
-> **`deploy` gates on `check`, and `check` runs `bun test`. Cloudflare's build image
-> has `npm` and `node` — it does not have `bun`.** So the deploy command fails before
-> it ever calls `wrangler`, on every one-click install, on a clean account.
+The build log's own line is `Detected the following tools from environment:
+npm@10.9.2, nodejs@24.18.0`. **No `bun`.** So `check` fails before `deploy.mjs` is
+ever called.
 
-The provisioning is not the problem. `wrangler.jsonc` in the generated repo is
-correct — the fresh database is bound by id:
+**2. `scripts/deploy.mjs` hardcodes the original project's names.**
+
+```js
+const D1_NAME      = "arra-memory-lab";
+const KV_NAME      = "arra-memory-lab-oauth";
+const BUILT_CONFIG = join("dist", "arra_memory_lab", "wrangler.json");
+```
+
+and then asserts on them — `Built config Worker name must be arra-memory-lab`, a D1
+named exactly `arra-memory-lab`, a KV named exactly `arra-memory-lab-oauth`. The
+one-click form invites you to choose a project name and create new resources, so
+**any name you pick fails these assertions**, and the built config actually lands in
+`dist/arra_memory_lab_oneclick/`, not the path it looks in.
+
+**3. It refuses to run outside the author's monorepo.** Running it directly, with
+`bun` present and everything built, gives:
+
+```
+$ node scripts/deploy.mjs
+[release] Run this command from the labs/arra-memory-lab directory
+```
+
+`deploy.mjs` is written for a `labs/arra-memory-lab` subdirectory in the source
+monorepo — not for the standalone repo the Deploy button generates.
+
+> [!CAUTION]
+> **The Deploy to Cloudflare button on this repo cannot complete.** Not because of
+> the app, but because the deploy script it invokes was never adapted to the
+> standalone layout the button produces. Fixing `bun` alone is not enough.
+
+The **provisioning is fine** — that is the good news. `wrangler.jsonc` in the
+generated repo is correct, with the fresh database bound by id:
 
 ```jsonc
 "d1_databases": [
@@ -204,21 +236,45 @@ correct — the fresh database is bound by id:
 "ai": { "binding": "AI" }
 ```
 
-### The fix
+So you can finish the install yourself in two commands.
 
-In the Worker's **Settings → Build**, change the **Deploy command** so it does not
-run the test suite:
+### Finish it with wrangler
+
+Clone the repo the button created, then:
+
+```bash
+export CLOUDFLARE_ACCOUNT_ID=<your account id>
+npm ci && npm run build
+
+# 1. migrate the FRESH database
+npx wrangler d1 migrations apply DB --remote
+
+# 2. deploy, bypassing the broken deploy script
+npx wrangler deploy
+```
+
+Real output:
 
 ```
-node scripts/deploy.mjs
+🚣 Executed 7 commands in 2.59ms
+┌───────────────────────────────────┬────────┐
+│ 0001_init.sql                     │ ✅     │
+│ 0002_memory_provenance.sql        │ ✅     │
+│ 0003_trace_links_supersession.sql │ ✅     │
+└───────────────────────────────────┴────────┘
+
+Uploaded arra-memory-lab-oneclick (6.72 sec)
+Deployed arra-memory-lab-oneclick triggers (1.58 sec)
+  https://arra-memory-lab-oneclick.laris.workers.dev
 ```
 
-Then **Retry build**. Run the checks in CI, where `bun` exists — not in Cloudflare's
-build image.
+`wrangler deploy` enables `workers.dev` by default, which also clears the 404 —
+the dashboard leaves it **Disabled** on a fresh Worker.
 
-Afterwards, enable the hostname: **Settings → Domains & Routes → workers.dev →
-Enable**. It is disabled by default on a fresh Worker, which is the other half of
-the 404.
+> [!NOTE]
+> The `LAB_ACCESS_TOKEN` you set in the deploy form is stored as a **Worker secret**
+> and survives this redeploy. Confirm with
+> `npx wrangler secret list --name <worker>`.
 
 ---
 
@@ -231,30 +287,40 @@ curl -s -o /dev/null -w '%{http_code}\n' "$U/mcp"
 curl -s "$U/.well-known/oauth-authorization-server" | jq
 ```
 
-What good looks like:
+Measured against the finished deploy:
 
-| Path | Expected |
+| Path | Result |
 |---|---|
-| `/` | `200` |
-| `/mcp` (GET) | `405` — it wants POST |
-| `/mcp` (POST, no token) | `401` |
-| `/.well-known/oauth-authorization-server` | `200` |
-| `/.well-known/oauth-protected-resource` | `200` |
+| `GET /` | **200** |
+| `GET /mcp` | **401** |
+| `POST /mcp` (no token) | **401** |
+| `GET /.well-known/oauth-authorization-server` | **200** |
+| `GET /.well-known/oauth-protected-resource` | **200** |
 
-`401` on `/mcp` is the **correct** answer, not a failure. `404` everywhere means the
-deploy did not land or `workers.dev` is still disabled.
+`401` on `/mcp` is the **correct** answer, not a failure — it means auth is enforced.
+`404` everywhere means the deploy did not land or `workers.dev` is still disabled.
 
-The authorization-server document should report PKCE and Dynamic Client
-Registration, which is what claude.ai needs:
+The authorization-server document, fetched live, is exactly what claude.ai needs:
 
 ```json
 {
+  "issuer":                           "https://<worker>/",
+  "authorization_endpoint":           "https://<worker>/authorize",
+  "token_endpoint":                   "https://<worker>/oauth/token",
+  "registration_endpoint":            "https://<worker>/oauth/register",
   "code_challenge_methods_supported": ["S256"],
-  "grant_types_supported": ["authorization_code", "refresh_token"],
-  "registration_endpoint": ".../oauth/register",
-  "scopes_supported": ["memory:read", "memory:write"]
+  "grant_types_supported":            ["authorization_code", "refresh_token"],
+  "scopes_supported":                 ["memory:read", "memory:write"]
 }
 ```
+
+Three things to check in that document:
+
+- **`S256`** — PKCE, required by claude.ai
+- **`registration_endpoint`** — Dynamic Client Registration, so no client id or
+  secret is ever pasted by hand
+- **`refresh_token`** — without it a client must send the user through the whole
+  authorize flow again every time the token expires
 
 ---
 
@@ -274,17 +340,45 @@ Registration, which is what claude.ai needs:
 
 ### Connecting the CLIs
 
-```bash
-# Claude Code
-claude mcp add --transport http arra-memory-lab https://<your-worker>/mcp
-claude mcp login arra-memory-lab
+The two CLIs take **different flags** — this trips people up:
 
-# Codex
-codex mcp add arra-memory-lab --transport http https://<your-worker>/mcp
+```bash
+# Claude Code — uses --transport
+claude mcp add --transport http arra-oneclick https://<your-worker>/mcp
+claude mcp login arra-oneclick
+
+# Codex — uses --url, NOT --transport
+codex mcp add arra-oneclick --url https://<your-worker>/mcp
+codex mcp login arra-oneclick
 ```
 
-Both use the same OAuth flow as claude.ai. The repo also ships
-`npm run mcp:connect` (`scripts/connect-mcp.sh`) which wraps this.
+After `add` but before `login`, both report the server as registered and unauthorized —
+which is what you should see:
+
+```
+claude:  arra-oneclick: https://…/mcp (HTTP) - ! Needs authentication
+codex:   arra-oneclick  https://…/mcp   enabled   Not logged in
+```
+
+> [!WARNING]
+> `codex mcp login` **opens a page in your real default browser** and blocks waiting
+> on a `http://127.0.0.1:<port>/callback/...` redirect. If you do not complete the
+> form promptly it gives up with `Caused by: deadline has elapsed`. Have the
+> passphrase on your clipboard before you start.
+
+The consent page is served by your own Worker and says **Connect Codex** (or
+**Connect Claude**), listing the redirect URI and the requested scopes
+`memory:read` and `memory:write`, with a single **Lab passphrase** field and an
+**Authorize MCP client** button. Its own wording explains the split:
+
+> *"The browser passphrase is exchanged locally with this Worker; the MCP client
+> receives a revocable OAuth token, not the passphrase."*
+
+So the passphrase is the `LAB_ACCESS_TOKEN` from Step 7, it never leaves your
+browser, and what the client stores is a token you can revoke independently.
+
+The repo also ships `npm run mcp:connect` (`scripts/connect-mcp.sh`) which wraps
+this.
 
 ---
 
@@ -296,8 +390,9 @@ Both use the same OAuth flow as claude.ai. The repo also ships
 - [ ] **D1 set to “+ Create new”**, not a pre-selected existing database
 - [ ] KV set to “+ Create new”
 - [ ] `LAB_ACCESS_TOKEN` replaced and stored
-- [ ] Deploy command does not run `bun` (see Step 8)
-- [ ] `workers.dev` enabled under Domains & Routes
+- [ ] Deploy finished via `npx wrangler deploy` (the button's own deploy script cannot work — Step 8)
+- [ ] `workers.dev` enabled (`wrangler deploy` does this; the dashboard does not)
+- [ ] D1 migrations applied with `wrangler d1 migrations apply DB --remote`
 - [ ] `/mcp` returns `401`, not `404`
 - [ ] Both `.well-known` documents return `200`
 
