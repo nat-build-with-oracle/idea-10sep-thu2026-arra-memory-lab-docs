@@ -51,6 +51,12 @@ flowchart TD
     class K good
 ```
 
+> [!NOTE]
+> Hostnames are written as `<ha-host>` and `<memory-host>` throughout. Substitute your
+> own: `<ha-host>` is where Home Assistant answers, `<memory-host>` is the tunnel or
+> LAN address that reaches the add-on's own port. They are **not** the same host and
+> that is the whole point of the next section.
+
 ### The trap: ingress cannot serve MCP
 
 `config.yaml` says it in its own comment — *"A LAN port in addition to ingress,
@@ -64,7 +70,7 @@ because ingress alone cannot serve MCP."*
 >
 > ```
 > <ha-host>/<hash>_arra_memory/mcp   → 200  <title>Home Assistant</title>
-> <memory-host>/mcp                 → 401  ← the real door
+> <memory-host>/mcp                  → 401  ← the real door
 > ```
 >
 > claude.ai cannot connect through the ingress path. Expose the LAN port through a
@@ -72,12 +78,19 @@ because ingress alone cannot serve MCP."*
 
 The proof is the page title. Both URLs answer `200`; only one is the add-on:
 
-![The ingress path serving the Home Assistant frontend, not the add-on](images/02-ingress-trap.png)
+Requesting the **ingress** `/mcp` path in a browser lands here — Home Assistant's own
+login, served as HTML:
+
+![The ingress /mcp path serving Home Assistant's login page](images/02-ingress-trap.png)
+
+An MCP client asking that URL for `tools/list` receives this page. Not an error, not
+JSON — a login form with `200 OK`. That is the whole failure mode: it looks reachable
+and is not an endpoint.
 
 | URL | `<title>` |
 |---|---|
-| `<ha-host>/<hash>_arra_memory/mcp` | **Home Assistant** |
-| `<memory-host>` | **thor-memory** |
+| `<ha-host>/<hash>_arra_memory/mcp` — the **ingress** path | **Home Assistant** |
+| `<memory-host>` — the **tunnel** to the add-on's LAN port | **thor-memory** |
 
 Two more from `config.yaml`, worth knowing before you file a bug:
 
@@ -113,7 +126,7 @@ the federation trio.
 ## Verify
 
 ```bash
-U=https://<memory-host>          # the tunnel, NOT the ingress path
+U=https://<memory-host>          # the tunnel to the LAN port, NOT the ingress path
 curl -s -o /dev/null -w '%{http_code}\n' "$U/"                     # 200
 curl -s -o /dev/null -w '%{http_code}\n' -X POST "$U/mcp"          # 401
 curl -s "$U/.well-known/oauth-authorization-server" | jq -e .registration_endpoint
