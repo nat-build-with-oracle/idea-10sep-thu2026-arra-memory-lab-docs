@@ -27,6 +27,32 @@ Plus a Workers AI binding for 768-dimensional embeddings.
 > repo you are reading from. If a repo of that name already exists, pick a different
 > project name — that is why everything here is suffixed `-oneclick`.
 
+## The install at a glance
+
+Red is where a plain click-through stops. The dashed line is the detour past it.
+Amber is the branch that does not fail — it just quietly wires you to the wrong data.
+
+```mermaid
+flowchart TD
+    A["<b>① GitHub</b> · arra-memory-lab<br/><i>Deploy to Cloudflare</i>"]
+    C{"<b>②</b> Account picker<br/><i>only with 2+ accounts</i>"}
+    D["<b>③ Set up your application</b><br/>Git account → org · Project name<br/>KV → + Create new · <b>D1 → + Create new</b><br/>LAB_ACCESS_TOKEN"]
+    WARN["⚠ an existing D1 can arrive<br/><b>pre-ticked</b> → binds LIVE data"]
+    P["<b>④ Provisioned, all four correct</b><br/>new repo · Worker · KV · D1<br/><i>wrangler.jsonc binds them by id</i>"]
+    FAIL["<b>⑤ build ✓ → deploy ✗</b><br/>no bun in build image · hardcoded<br/>D1_NAME / KV_NAME · wants labs/…"]
+    FIX["<b>⑥ finish by hand</b><br/>wrangler d1 migrations apply DB --remote<br/>wrangler deploy <i>(enables workers.dev)</i>"]
+    LIVE["<b>⑦ Worker live</b> · / 200 · /mcp 401<br/>both .well-known 200"]
+    A --> C --> D --> P --> FAIL
+    D -->|watch this| WARN
+    FAIL -.->|bypass| FIX --> LIVE
+    classDef bad fill:#4a1113,stroke:#e5534b,stroke-width:2px,color:#ffdad6
+    classDef good fill:#12311c,stroke:#3fb950,stroke-width:2px,color:#d5f5df
+    classDef warn fill:#432c04,stroke:#d29922,stroke-width:2px,color:#f8e3b0
+    class FAIL bad
+    class WARN warn
+    class LIVE good
+```
+
 ---
 
 ## Step 1 — Start at the repo
@@ -325,6 +351,23 @@ Three things to check in that document:
 ---
 
 ## Step 10 — Connect it to claude.ai
+
+Nothing is pasted by hand here except the passphrase. The Worker's two `.well-known`
+documents do the configuring:
+
+```mermaid
+flowchart TD
+    LIVE["<b>Worker live</b><br/>/.well-known/oauth-authorization-server<br/>/.well-known/oauth-protected-resource"]
+    G["<b>⑧</b> claude.ai · <b>Customize → Connectors</b><br/><i>not Settings → Connectors, that route is dead</i><br/>Add custom connector: name + <b>/mcp</b> URL"]
+    I["<b>⑨ claude.ai configures itself</b><br/>Authentication: Always required <code>Detected</code><br/>OAuth client: register automatically <code>Detected</code>"]
+    J["<b>Worker's own consent page</b><br/>client_id minted by DCR seconds earlier<br/>Lab passphrase = LAB_ACCESS_TOKEN"]
+    K["<b>⑩ Connected</b> — 9 tools by group<br/>read-only 2 · write/delete 2 · other 5<br/><i>each defaults to Needs approval</i>"]
+    LIVE -->|"claude.ai reads them"| G --> I --> J --> K
+    classDef good fill:#12311c,stroke:#3fb950,stroke-width:2px,color:#d5f5df
+    classDef key fill:#0d2b45,stroke:#4a9eff,stroke-width:2px,color:#cfe6ff
+    class K good
+    class I key
+```
 
 > [!NOTE]
 > **Connectors have moved.** `claude.ai/settings/connectors` now just says *"Connectors
