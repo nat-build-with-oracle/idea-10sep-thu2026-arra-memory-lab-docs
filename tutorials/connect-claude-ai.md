@@ -87,7 +87,14 @@ hand.
 The third option, **Authentication: None**, is for servers with open access *or* ones
 that take an API key — those use **Additional request headers** instead, where
 claude.ai stores up to four values *"securely and never shown again."* No memory
-server in this fleet needs that path.
+server in this fleet needs that path, and `arra-memory-haos` says why in its own
+config comment:
+
+> *"claude.ai connectors CANNOT send a static header and must use the OAuth flow
+> instead — that is why both exist."*
+
+That is the reason these servers carry two secrets: a **static token** for CLI clients
+that read a config file, and an **owner passphrase** for the OAuth consent page.
 
 Press **Add**.
 
@@ -114,7 +121,7 @@ can revoke on its own.
 | Server | Passphrase is |
 |---|---|
 | `arra-memory-lab` and its one-click copies | `LAB_ACCESS_TOKEN` |
-| `thor-memory` / `arra-memory` | the add-on's `api_token` option |
+| `thor-memory` / `arra-memory` | the add-on's **`owner_passphrase`** option — *not* `api_token` |
 | `digger-node` | `OWNER_PASSPHRASE` |
 
 ## Step 5 — Connected

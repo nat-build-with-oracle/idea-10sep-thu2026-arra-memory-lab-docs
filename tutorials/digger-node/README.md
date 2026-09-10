@@ -10,6 +10,8 @@ The fleet's other **working** Deploy to Cloudflare button. Same OAuth shape as
 https://deploy.workers.cloudflare.com/?url=https://github.com/Soul-Brews-Studio/digger-node
 ```
 
+![digger-node's Deploy to Cloudflare button, targeting its own repo](images/01-github-deploy.png)
+
 ---
 
 ## What it is, and what it is not
@@ -75,6 +77,10 @@ dialog, the same traps:
 wrangler secret put OWNER_PASSPHRASE   OAuth (claude.ai) + web login
 wrangler secret put API_TOKEN          static bearer (curl, MCP clients)
 ```
+
+Once `OWNER_PASSPHRASE` is set, the Worker locks:
+
+![digger-node's sign-in screen](images/02-live-ui.png)
 
 > [!IMPORTANT]
 > **With neither set, the Worker is open** — deliberately, so a one-click deploy

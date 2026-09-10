@@ -70,6 +70,15 @@ because ingress alone cannot serve MCP."*
 > claude.ai cannot connect through the ingress path. Expose the LAN port through a
 > tunnel and give claude.ai *that* hostname.
 
+The proof is the page title. Both URLs answer `200`; only one is the add-on:
+
+![The ingress path serving the Home Assistant frontend, not the add-on](images/02-ingress-trap.png)
+
+| URL | `<title>` |
+|---|---|
+| `<ha-host>/<hash>_arra_memory/mcp` | **Home Assistant** |
+| `<memory-host>` | **thor-memory** |
+
 Two more from `config.yaml`, worth knowing before you file a bug:
 
 - `ingress_panel` is **`false`** on a fresh install in some Supervisor versions — if
@@ -117,8 +126,22 @@ scopes `memory:read memory:write`.
 
 ## Connect
 
-Pattern A — **[connect-claude-ai.md](../connect-claude-ai.md)**. The passphrase at the
-consent page is the add-on's **`api_token`** option.
+Pattern A — **[connect-claude-ai.md](../connect-claude-ai.md)**.
+
+The passphrase at the consent page is the add-on's **`owner_passphrase`** option —
+**not** `api_token`. The two are for different clients, and `config.yaml` says so:
+
+| Option | For |
+|---|---|
+| **`owner_passphrase`** | the web UI **and approving MCP clients** — this is what claude.ai's consent page wants |
+| `api_token` | *"static bearer token for scripts, curl, and MCP clients that read a config file (Claude Code, Codex). **claude.ai connectors CANNOT send a static header and must use the OAuth flow instead — that is why both exist.**"* |
+
+Blank `owner_passphrase` means the add-on **refuses to start**, *"rather than serving
+your memories to anyone who finds the URL."*
+
+Its unlock screen, on the real hostname:
+
+![thor-memory's lock screen asking for the owner passphrase](images/01-thor-ui.png)
 
 > [!WARNING]
 > **No `refresh_token`.** `grant_types_supported` is `["authorization_code"]`, so
