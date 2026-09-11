@@ -75,6 +75,11 @@ because ingress alone cannot serve MCP."*
 >
 > claude.ai cannot connect through the ingress path. Expose the LAN port through a
 > tunnel and give claude.ai *that* hostname.
+>
+> **Precisely:** ingress works fine for a *browser that has a Home Assistant session*
+> — it proxies straight through to the add-on's own UI. What it cannot serve is a
+> client with no HA cookie, which is every MCP client. The `200` you get without a
+> session is HA's login page, not the add-on.
 
 The proof is the page title. Both URLs answer `200`; only one is the add-on:
 
@@ -172,3 +177,67 @@ eight or more times in between. The tunnel and the OAuth metadata came back with
 ~75 seconds of the guest booting.
 
 If every endpoint above returns `1033`, the add-on is fine — the guest is off.
+
+
+---
+
+## Verified running, 2026-09-11
+
+The add-on is installed and started on the `thor` box. Its ingress panel is in the
+sidebar, and opening it serves **the add-on's own lock screen**, not Home Assistant's:
+
+![Memory · Lance in the sidebar, serving the add-on's own unlock screen](images/05-lance-panel.png)
+
+Two things that screenshot settles:
+
+- **`Memory · Lance` is a live panel.** Supervisor registers an ingress panel when an
+  add-on **starts** and removes it when it stops, so a panel is much better evidence
+  than any HTTP status.
+- **The instance calls itself `THOR-MEMORY-LANCE`** — the `instance_name` option,
+  distinct from `thor-memory` running the libSQL original beside it.
+
+### How to check without the Supervisor UI
+
+The usual route — Settings → Add-ons — **does not work on this deployment**. Measured:
+
+| probe | result |
+|---|---|
+| `/hassio/dashboard` | `404` |
+| `/config/addons` | shell renders, **content never populates** (waited 32 s, no error shown) |
+| `/api/hassio/addons` | `401` |
+| `/api/hassio/<nonsense>` | `401` — so the whole subtree is gated, not one endpoint |
+| `/api/` and `/api/config` | `200` — the token is fine |
+
+`hassio` **is** in `components` (HA 2026.9.0) and the account **is** `is_admin`. So this
+is neither a missing Supervisor nor a permissions problem — the REST proxy is blocked
+on this deployment while the frontend still reaches Supervisor by its own channel.
+
+![Settings → Add-ons renders the shell and nothing else](images/07-addons-list.png)
+
+**The frontend's own state answers it instead.** In the browser console on any HA page:
+
+```js
+Object.values(document.querySelector('home-assistant').hass.panels)
+  .filter(p => /^[0-9a-f]{8}_/.test(p.url_path))
+  .map(p => `${p.url_path}  ${p.title}`)
+```
+
+```
+f2b73050_oracle_registry        Oracle Registry
+cd2339cc_arra_memory            Memory
+a313c108_arra_studio            Studio
+03926c4d_arra_memory_lancedb    Memory · Lance
+a313c108_arra_oracle            Oracle
+```
+
+Every one of those hashes decodes with
+[`haos-ingress-whois`](#) — `cd2339cc` → `arra-memory-haos`, `03926c4d` → the LanceDB
+Python fork, `a313c108` → `arra-oracle-v3-haos`, `f2b73050` → `oracle-registry-haos`.
+The running system and the hash table agree.
+
+> [!NOTE]
+> Because the Supervisor UI is unavailable here, the **add-on store walkthrough could
+> not be captured on this box** — the repositories dialog, install page and
+> Configuration/Network tabs all live behind that blank panel. The install steps in
+> the diagram above remain accurate; they are simply not illustrated. A Home
+> Assistant instance whose Supervisor REST proxy is reachable would capture cleanly.
