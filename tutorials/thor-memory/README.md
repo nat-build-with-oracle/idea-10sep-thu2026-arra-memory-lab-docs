@@ -246,11 +246,23 @@ The running system and the hash table agree.
 > | `/api/hassio/<nonsense>` | `401` | `401` |
 > | Settings → Add-ons UI | blank | blank |
 >
-> Both are admin, both have `hassio` in `components`, both reach Core fine. The one
-> thing they share is that both are published through a **cloudflared tunnel**. That
-> is the common factor and the place to look — not the add-ons, not the accounts.
+> Both are admin, both have `hassio` in `components`, both reach Core fine.
 >
-> So the **add-on store walkthrough cannot be captured through these tunnels at all**:
+> **It is not the tunnel.** Tested with the *same* access token over two independent
+> routes — the cloudflared tunnel, and a direct NetBird address bypassing it entirely:
+>
+> | route | `/api/config` | `/api/hassio/addons` |
+> |---|---|---|
+> | cloudflared tunnel | `200` | **`401`** |
+> | NetBird, direct to the box | `200` | **`401`** |
+>
+> Identical. The refusal comes from **Home Assistant itself**, not from anything in
+> front of it. Given that `/api/hassio/<nonsense>` also returns `401` rather than
+> `404`, the likeliest reading is that the Supervisor REST proxy is no longer an
+> authenticated REST route on this version (HA **2026.9.0**) and the frontend reaches
+> Supervisor by another channel — but that is inference, not measurement.
+>
+> So the **add-on store walkthrough cannot be captured on either of these boxes**:
 > the repositories dialog, the install page and the Configuration/Network tabs all
 > live behind that blank panel. The install steps in the diagram remain accurate;
 > they are not illustrated, and this is why.
