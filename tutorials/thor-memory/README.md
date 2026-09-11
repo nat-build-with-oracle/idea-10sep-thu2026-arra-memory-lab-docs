@@ -235,9 +235,33 @@ Every one of those hashes decodes with
 Python fork, `a313c108` → `arra-oracle-v3-haos`, `f2b73050` → `oracle-registry-haos`.
 The running system and the hash table agree.
 
-> [!NOTE]
-> Because the Supervisor UI is unavailable here, the **add-on store walkthrough could
-> not be captured on this box** — the repositories dialog, install page and
-> Configuration/Network tabs all live behind that blank panel. The install steps in
-> the diagram above remain accurate; they are simply not illustrated. A Home
-> Assistant instance whose Supervisor REST proxy is reachable would capture cleanly.
+> [!CAUTION]
+> **Two Home Assistant boxes, the same block.** Repeated on a second, independent
+> instance signed in as a *different* admin account:
+>
+> | probe | thor | kvmlab1 |
+> |---|---|---|
+> | `/api/config` | `200` | `200` |
+> | `/api/hassio/addons` | `401` | `401` |
+> | `/api/hassio/<nonsense>` | `401` | `401` |
+> | Settings → Add-ons UI | blank | blank |
+>
+> Both are admin, both have `hassio` in `components`, both reach Core fine. The one
+> thing they share is that both are published through a **cloudflared tunnel**. That
+> is the common factor and the place to look — not the add-ons, not the accounts.
+>
+> So the **add-on store walkthrough cannot be captured through these tunnels at all**:
+> the repositories dialog, the install page and the Configuration/Network tabs all
+> live behind that blank panel. The install steps in the diagram remain accurate;
+> they are not illustrated, and this is why.
+
+> [!WARNING] What the panel trick can and cannot tell you
+> Reading `hass.panels` proves an add-on is **present and started** — Supervisor
+> registers the panel on start. It does **not** enumerate installed add-ons.
+>
+> Only add-ons with `ingress: true` **and** a sidebar panel appear. `kvmlab1` returns
+> exactly **one** (`a0d7b954_ssh`, the official Terminal add-on) while
+> [[app-urls]] counted 22 add-ons on that box — no contradiction, because most
+> add-ons have no UI to put in a sidebar.
+>
+> **A panel is proof of presence. Absence of a panel is proof of nothing.**
