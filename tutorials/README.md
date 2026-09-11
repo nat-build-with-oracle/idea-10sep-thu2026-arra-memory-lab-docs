@@ -140,6 +140,7 @@ tgt=$(git grep -h -oE 'deploy\.workers\.cloudflare\.com/\?url=[^ )"]+' HEAD -- R
 | **[digger-node](digger-node/README.md)** | The other working one-click. Same OAuth shape, a completely different 19-tool vocabulary |
 | **[thor-memory](thor-memory/README.md)** | The 19-tool original. No one-click — it installs as a Home Assistant add-on |
 | **[connect-claude-ai](connect-claude-ai.md)** | The connector flow itself, shared by all six |
+| **[lanceglass](lanceglass/README.md)** | **Not an MCP server** — a local-first LanceDB over your own session JSONL. Its live demo is UI only, because `@lancedb/lancedb` is a native binding workerd cannot load. Read it for the constraint that shaped every storage choice above |
 
 ---
 
