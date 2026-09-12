@@ -1,6 +1,6 @@
 # thor-memory — Home Assistant add-on & claude.ai
 
-[← Memory on claude.ai](../README.html) · [Connector flow](../connect-claude-ai.html) · [arra-memory-lab](../one-click-install/README.html) · [digger-node](../digger-node/README.html)
+[← Memory on claude.ai](../) · [Connector flow](../connect-claude-ai.html) · [arra-memory-lab](../one-click-install/) · [digger-node](../digger-node/)
 
 The **19-tool original**. Everything the Cloudflare memory servers do, plus ten more
 tools they never got — and no Deploy button, because it is not a Worker.

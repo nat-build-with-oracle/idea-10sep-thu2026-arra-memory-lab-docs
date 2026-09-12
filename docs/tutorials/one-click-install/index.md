@@ -1,6 +1,6 @@
 # One-click install — GitHub → Cloudflare → claude.ai
 
-[← Memory on claude.ai](../README.html) · [Connector flow](../connect-claude-ai.html) · [digger-node](../digger-node/README.html) · [thor-memory](../thor-memory/README.html)
+[← Memory on claude.ai](../) · [Connector flow](../connect-claude-ai.html) · [digger-node](../digger-node/) · [thor-memory](../thor-memory/)
 
 A walkthrough of deploying **arra-memory-lab** with the Deploy to Cloudflare button,
 captured step by step on 2026-09-10 against a real account.

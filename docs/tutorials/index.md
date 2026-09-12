@@ -12,12 +12,12 @@ Measured 2026-09-10 by probing every endpoint — not from memory.
 
 | Server | Where it runs | One-click | Refresh | Scopes | Tools |
 |---|---|---|---|---|---|
-| **[arra-memory-lab](one-click-install/README.html)** | ☁️ CF Worker · D1 + Workers AI | ✅ **works** | ✅ **yes** | `memory:read` `memory:write` | 9 |
+| **[arra-memory-lab](one-click-install/)** | ☁️ CF Worker · D1 + Workers AI | ✅ **works** | ✅ **yes** | `memory:read` `memory:write` | 9 |
 | **arra-memory-lab-oneclick** | ☁️ CF Worker · fresh D1 | ✅ *(this walkthrough)* | ✅ **yes** | `memory:read` `memory:write` | 9 |
-| **[thor-memory](thor-memory/README.html)** | 🏠 HAOS add-on · libSQL + Turso | ❌ add-on store | ❌ no | `memory:read` `memory:write` | **19** |
+| **[thor-memory](thor-memory/)** | 🏠 HAOS add-on · libSQL + Turso | ❌ add-on store | ❌ no | `memory:read` `memory:write` | **19** |
 | **arra-memory** *(memory-vm)* | 🖥 VM behind a tunnel | ❌ | ❌ no | `memory:read` `memory:write` | 19+ |
 | **memory-lab-2sep** | ☁️ CF Worker · D1 | ❌ *(source missing)* | ❌ no | ⚠️ `memory:rw` | 9 |
-| **[digger-node](digger-node/README.html)** | ☁️ CF Worker · D1 + Workers AI | ✅ **works** | ❌ no | ⚠️ `nodes:read` `nodes:write` | **19** |
+| **[digger-node](digger-node/)** | ☁️ CF Worker · D1 + Workers AI | ✅ **works** | ❌ no | ⚠️ `nodes:read` `nodes:write` | **19** |
 
 Every one: `/` → `200`, `POST /mcp` → `401`, both `.well-known` → `200`, **DCR yes.**
 `401` on `/mcp` is the correct answer — it means auth is enforced.
@@ -136,11 +136,11 @@ tgt=$(git grep -h -oE 'deploy\.workers\.cloudflare\.com/\?url=[^ )"]+' HEAD -- R
 
 | | |
 |---|---|
-| **[arra-memory-lab — the full worked example](one-click-install/README.html)** | 19 screenshots, GitHub → Cloudflare → claude.ai, including the **three** reasons its own deploy script cannot finish and the two commands that get past them |
-| **[digger-node](digger-node/README.html)** | The other working one-click. Same OAuth shape, a completely different 19-tool vocabulary |
-| **[thor-memory](thor-memory/README.html)** | The 19-tool original. No one-click — it installs as a Home Assistant add-on |
+| **[arra-memory-lab — the full worked example](one-click-install/)** | 19 screenshots, GitHub → Cloudflare → claude.ai, including the **three** reasons its own deploy script cannot finish and the two commands that get past them |
+| **[digger-node](digger-node/)** | The other working one-click. Same OAuth shape, a completely different 19-tool vocabulary |
+| **[thor-memory](thor-memory/)** | The 19-tool original. No one-click — it installs as a Home Assistant add-on |
 | **[connect-claude-ai](connect-claude-ai.html)** | The connector flow itself, shared by all six |
-| **[lanceglass](lanceglass/README.html)** | **Not an MCP server** — a local-first LanceDB over your own session JSONL. Its live demo is UI only, because `@lancedb/lancedb` is a native binding workerd cannot load. Read it for the constraint that shaped every storage choice above |
+| **[lanceglass](lanceglass/)** | **Not an MCP server** — a local-first LanceDB over your own session JSONL. Its live demo is UI only, because `@lancedb/lancedb` is a native binding workerd cannot load. Read it for the constraint that shaped every storage choice above |
 
 ---
 

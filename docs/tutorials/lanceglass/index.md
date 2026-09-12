@@ -1,6 +1,6 @@
 # lanceglass — the demo you can open, and the database you have to run
 
-[← Memory on claude.ai](../README.html) · [arra-memory-lab](../one-click-install/README.html) · [digger-node](../digger-node/README.html) · [thor-memory](../thor-memory/README.html)
+[← Memory on claude.ai](../) · [arra-memory-lab](../one-click-install/) · [digger-node](../digger-node/) · [thor-memory](../thor-memory/)
 
 Every other tutorial here ends with a **Deploy to Cloudflare** button and a server you
 can talk to. This one does not, and the reason is the most useful thing on the page.
@@ -143,9 +143,9 @@ That is exactly why the other tools in this series look different:
 
 | Tool | Storage | Runs on Cloudflare? |
 |---|---|---|
-| [`arra-memory-lab`](../one-click-install/README.html) | D1 | yes — one-click |
-| [`digger-node`](../digger-node/README.html) | D1 + FTS5 | yes — one-click |
-| [`thor-memory`](../thor-memory/README.html) | LanceDB on a host | no — the add-on runs it |
+| [`arra-memory-lab`](../one-click-install/) | D1 | yes — one-click |
+| [`digger-node`](../digger-node/) | D1 + FTS5 | yes — one-click |
+| [`thor-memory`](../thor-memory/) | LanceDB on a host | no — the add-on runs it |
 | **`lanceglass`** | **LanceDB, local** | **interface only** |
 
 Same fleet, same week, opposite constraint. If you want a memory server behind a URL,

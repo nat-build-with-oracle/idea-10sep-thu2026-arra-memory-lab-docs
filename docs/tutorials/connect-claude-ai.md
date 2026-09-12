@@ -1,6 +1,6 @@
 # Connecting a memory server to claude.ai
 
-[← Memory on claude.ai](README.html) · [arra-memory-lab](one-click-install/README.html) · [digger-node](digger-node/README.html) · [thor-memory](thor-memory/README.html)
+[← Memory on claude.ai](./) · [arra-memory-lab](one-click-install/) · [digger-node](digger-node/) · [thor-memory](thor-memory/)
 
 The connector flow, once, with screenshots. Every memory server in this fleet uses
 it — `arra-memory-lab`, `thor-memory`, `arra-memory`, `memory-lab-2sep`,
@@ -188,4 +188,4 @@ curl -s "$U/.well-known/oauth-authorization-server" | jq .grant_types_supported
 
 In this fleet only the `arra-memory-lab` lineage has the second grant. `thor-memory`,
 `arra-memory`, `memory-lab-2sep` and `digger-node` do not — see the
-[comparison table](README.html#the-three-differences).
+[comparison table](./#the-three-differences).

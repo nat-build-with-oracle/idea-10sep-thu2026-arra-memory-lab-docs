@@ -1,6 +1,6 @@
 # digger-node — one-click install & claude.ai
 
-[← Memory on claude.ai](../README.html) · [Connector flow](../connect-claude-ai.html) · [arra-memory-lab](../one-click-install/README.html) · [thor-memory](../thor-memory/README.html)
+[← Memory on claude.ai](../) · [Connector flow](../connect-claude-ai.html) · [arra-memory-lab](../one-click-install/) · [thor-memory](../thor-memory/)
 
 The fleet's other **working** Deploy to Cloudflare button. Same OAuth shape as
 `arra-memory-lab`, an entirely different tool vocabulary, and — unlike
@@ -61,7 +61,7 @@ flowchart TD
 ```
 
 The form is the one documented in detail in the
-[arra-memory-lab walkthrough](../one-click-install/README.html) — the same Cloudflare
+[arra-memory-lab walkthrough](../one-click-install/) — the same Cloudflare
 dialog, the same traps:
 
 - **Project name** becomes the Worker name, the `*.workers.dev` hostname, **and a new
