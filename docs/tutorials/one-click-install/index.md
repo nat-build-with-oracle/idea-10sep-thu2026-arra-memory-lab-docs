@@ -521,3 +521,5 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+
+<script src="{{ '/assets/lightbox.js' | relative_url }}"></script>

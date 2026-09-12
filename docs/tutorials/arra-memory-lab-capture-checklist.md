@@ -77,3 +77,5 @@ Before embedding a capture:
 6. Verify that the image and Markdown will be included together when the owner chooses to publish.
 
 **While the browser is handed to the owner:** do not recapture or take control back without explicit confirmation. The checklist documents remaining work; it is not permission to proceed through authentication.
+
+<script src="{{ '/assets/lightbox.js' | relative_url }}"></script>

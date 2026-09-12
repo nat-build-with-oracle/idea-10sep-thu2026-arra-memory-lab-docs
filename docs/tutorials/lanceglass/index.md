@@ -230,3 +230,5 @@ If you want the long version, the repo carries an eight-part course in
 ---
 
 🤖 ตอบโดย digger จาก Nat → digger-oracle
+
+<script src="{{ '/assets/lightbox.js' | relative_url }}"></script>

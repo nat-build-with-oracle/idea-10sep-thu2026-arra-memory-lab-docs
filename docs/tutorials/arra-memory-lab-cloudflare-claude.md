@@ -515,3 +515,5 @@ The tutorial is not complete until these results exist. Do not turn unchecked st
 - Relative image paths render on GitHub when this Markdown file and its image folder are committed together. The current files are local working-tree artifacts; no GitHub publication has been performed by this run.
 - This lab sends certain memory/query text to Workers AI. Use synthetic/non-sensitive data unless your policy permits that processing. The verification prompts above use metadata-only tools.
 - Primary references: [repository README](https://github.com/Soul-Brews-Studio/arra-memory-lab), [deployment helper](https://github.com/Soul-Brews-Studio/arra-memory-lab/blob/6251a6309937bd9038a46d149fb8d1f6827afc73/scripts/deploy.mjs), [Cloudflare Deploy Buttons](https://developers.cloudflare.com/workers/platform/deploy-buttons/), [Cloudflare Vite deployment](https://developers.cloudflare.com/workers/vite-plugin/reference/migrating-from-wrangler-dev/).
+
+<script src="{{ '/assets/lightbox.js' | relative_url }}"></script>

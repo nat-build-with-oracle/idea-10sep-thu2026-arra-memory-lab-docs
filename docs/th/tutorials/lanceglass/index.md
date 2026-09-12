@@ -234,3 +234,5 @@ operation ที่ถูก idempotent แล้วก็ offline ได้อ�
 ---
 
 🤖 ตอบโดย digger จาก Nat → digger-oracle
+
+<script src="{{ '/assets/lightbox.js' | relative_url }}"></script>

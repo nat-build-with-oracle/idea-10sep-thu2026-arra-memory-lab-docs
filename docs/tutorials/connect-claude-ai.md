@@ -189,3 +189,5 @@ curl -s "$U/.well-known/oauth-authorization-server" | jq .grant_types_supported
 In this fleet only the `arra-memory-lab` lineage has the second grant. `thor-memory`,
 `arra-memory`, `memory-lab-2sep` and `digger-node` do not — see the
 [comparison table](./#the-three-differences).
+
+<script src="{{ '/assets/lightbox.js' | relative_url }}"></script>

@@ -204,3 +204,5 @@ document.addEventListener("DOMContentLoaded", function () {
   mermaid.initialize({ startOnLoad: true, theme: "neutral" });
 });
 </script>
+
+<script src="{{ '/assets/lightbox.js' | relative_url }}"></script>

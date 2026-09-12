@@ -38,3 +38,5 @@ The check succeeds when an account-scoped Cloudflare **Home** page loads after a
 
 - Interface observed on 2026-09-10.
 - Keep account emails, account IDs, tokens, passwords, and private dashboard screenshots out of shared tutorials.
+
+<script src="{{ '/assets/lightbox.js' | relative_url }}"></script>
