@@ -2,7 +2,7 @@
 
 Deploy a **separate Arra Memory Lab with a fresh database**, connect its remote MCP endpoint to Claude.ai, and verify a real tool call without changing the existing lab.
 
-> **This is an in-progress walkthrough, not a completed installation report.** It contains 45 numbered steps, five real screenshots, and an [expanded screenshot checklist](arra-memory-lab-capture-checklist.md). The browser was handed to the owner at GitHub sign-in. No fresh Worker, database, or connector has been created by this run.
+> **This is an in-progress walkthrough, not a completed installation report.** It contains 45 numbered steps, five real screenshots, and an [expanded screenshot checklist](arra-memory-lab-capture-checklist.html). The browser was handed to the owner at GitHub sign-in. No fresh Worker, database, or connector has been created by this run.
 
 ## How to read this guide
 
@@ -24,7 +24,7 @@ Deploy a **separate Arra Memory Lab with a fresh database**, connect its remote 
 - [Part G: Real MCP verification](#part-g-real-mcp-verification)
 - [Troubleshooting](#troubleshooting)
 - [Completion evidence](#completion-evidence)
-- [Screenshot-by-screenshot capture checklist](arra-memory-lab-capture-checklist.md)
+- [Screenshot-by-screenshot capture checklist](arra-memory-lab-capture-checklist.html)
 
 ## Before you begin
 
@@ -510,7 +510,7 @@ The tutorial is not complete until these results exist. Do not turn unchecked st
 ## Notes and sources
 
 - Interface observed on **2026-09-10**. Later interfaces may use different labels; update from live evidence rather than guessing.
-- Five images are available today because the earlier run captured milestones, not every interaction. The [capture checklist](arra-memory-lab-capture-checklist.md) makes the missing intermediate states explicit.
+- Five images are available today because the earlier run captured milestones, not every interaction. The [capture checklist](arra-memory-lab-capture-checklist.html) makes the missing intermediate states explicit.
 - Screenshots are live captures, not mockups. Sensitive and unrelated page areas were hidden or excluded before capture; credential entry is omitted entirely.
 - Relative image paths render on GitHub when this Markdown file and its image folder are committed together. The current files are local working-tree artifacts; no GitHub publication has been performed by this run.
 - This lab sends certain memory/query text to Workers AI. Use synthetic/non-sensitive data unless your policy permits that processing. The verification prompts above use metadata-only tools.

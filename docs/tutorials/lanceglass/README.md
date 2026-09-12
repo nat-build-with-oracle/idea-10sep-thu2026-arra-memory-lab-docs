@@ -1,6 +1,6 @@
 # lanceglass — the demo you can open, and the database you have to run
 
-[← Memory on claude.ai](../README.md) · [arra-memory-lab](../one-click-install/README.md) · [digger-node](../digger-node/README.md) · [thor-memory](../thor-memory/README.md)
+[← Memory on claude.ai](../README.html) · [arra-memory-lab](../one-click-install/README.html) · [digger-node](../digger-node/README.html) · [thor-memory](../thor-memory/README.html)
 
 Every other tutorial here ends with a **Deploy to Cloudflare** button and a server you
 can talk to. This one does not, and the reason is the most useful thing on the page.
@@ -143,9 +143,9 @@ That is exactly why the other tools in this series look different:
 
 | Tool | Storage | Runs on Cloudflare? |
 |---|---|---|
-| [`arra-memory-lab`](../one-click-install/README.md) | D1 | yes — one-click |
-| [`digger-node`](../digger-node/README.md) | D1 + FTS5 | yes — one-click |
-| [`thor-memory`](../thor-memory/README.md) | LanceDB on a host | no — the add-on runs it |
+| [`arra-memory-lab`](../one-click-install/README.html) | D1 | yes — one-click |
+| [`digger-node`](../digger-node/README.html) | D1 + FTS5 | yes — one-click |
+| [`thor-memory`](../thor-memory/README.html) | LanceDB on a host | no — the add-on runs it |
 | **`lanceglass`** | **LanceDB, local** | **interface only** |
 
 Same fleet, same week, opposite constraint. If you want a memory server behind a URL,
@@ -225,7 +225,7 @@ If you want the long version, the repo carries an eight-part course in
 | Runtime | Bun 1.3+ · `@lancedb/lancedb` 0.27.2 · `apache-arrow` 18.1.0 |
 | UI | React 19 · Vite · `three` 0.185 for the 3D map |
 | Course | `lessons/01-choose-db` … `08-optional-embeddings` |
-| UI state gallery | [`docs/ui-state-gallery.md`](https://github.com/Soul-Brews-Studio/lanceglass/blob/main/docs/ui-state-gallery.md) — 19 more screenshots |
+| UI state gallery | [`docs/ui-state-gallery.md`](https://github.com/Soul-Brews-Studio/lanceglass/blob/main/docs/ui-state-gallery.html) — 19 more screenshots |
 
 ---
 

@@ -1,6 +1,6 @@
 # Arra Memory Lab screenshot capture checklist
 
-Companion to the [45-step walkthrough](arra-memory-lab-cloudflare-claude.md).
+Companion to the [45-step walkthrough](arra-memory-lab-cloudflare-claude.html).
 
 **Current inventory: 5 real images.** The other rows below are capture targets, not files or completed actions. Capture each meaningful screen transition, completed configuration state, validation result, and error/recovery state—not every keystroke. If the live interface differs, update the target instead of fabricating a matching screen.
 

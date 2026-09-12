@@ -1,6 +1,6 @@
 # digger-node — one-click install & claude.ai
 
-[← Memory on claude.ai](../README.md) · [Connector flow](../connect-claude-ai.md) · [arra-memory-lab](../one-click-install/README.md) · [thor-memory](../thor-memory/README.md)
+[← Memory on claude.ai](../README.html) · [Connector flow](../connect-claude-ai.html) · [arra-memory-lab](../one-click-install/README.html) · [thor-memory](../thor-memory/README.html)
 
 The fleet's other **working** Deploy to Cloudflare button. Same OAuth shape as
 `arra-memory-lab`, an entirely different tool vocabulary, and — unlike
@@ -61,7 +61,7 @@ flowchart TD
 ```
 
 The form is the one documented in detail in the
-[arra-memory-lab walkthrough](../one-click-install/README.md) — the same Cloudflare
+[arra-memory-lab walkthrough](../one-click-install/README.html) — the same Cloudflare
 dialog, the same traps:
 
 - **Project name** becomes the Worker name, the `*.workers.dev` hostname, **and a new
@@ -114,7 +114,7 @@ https://digger-node.laris.workers.dev
 ## Connect
 
 Pattern A, identical to every memory server —
-**[connect-claude-ai.md](../connect-claude-ai.md)**.
+**[connect-claude-ai.md](../connect-claude-ai.html)**.
 
 The passphrase at the consent page is **`OWNER_PASSPHRASE`**.
 

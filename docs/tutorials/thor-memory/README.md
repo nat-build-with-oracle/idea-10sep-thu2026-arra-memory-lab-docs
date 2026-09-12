@@ -1,6 +1,6 @@
 # thor-memory — Home Assistant add-on & claude.ai
 
-[← Memory on claude.ai](../README.md) · [Connector flow](../connect-claude-ai.md) · [arra-memory-lab](../one-click-install/README.md) · [digger-node](../digger-node/README.md)
+[← Memory on claude.ai](../README.html) · [Connector flow](../connect-claude-ai.html) · [arra-memory-lab](../one-click-install/README.html) · [digger-node](../digger-node/README.html)
 
 The **19-tool original**. Everything the Cloudflare memory servers do, plus ten more
 tools they never got — and no Deploy button, because it is not a Worker.
@@ -144,7 +144,7 @@ scopes `memory:read memory:write`.
 
 ## Connect
 
-Pattern A — **[connect-claude-ai.md](../connect-claude-ai.md)**.
+Pattern A — **[connect-claude-ai.md](../connect-claude-ai.html)**.
 
 The passphrase at the consent page is the add-on's **`owner_passphrase`** option —
 **not** `api_token`. The two are for different clients, and `config.yaml` says so:

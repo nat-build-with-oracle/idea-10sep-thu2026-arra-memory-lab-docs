@@ -8,7 +8,7 @@ Written from installs that **actually ran**, including the ones that failed. Whe
 one-click button does not finish, the guide says so, shows the build log, and gives
 the commands that get past it.
 
-> **[→ Start here: the comparison and the walkthroughs](tutorials/README.md)**
+> **[→ Start here: the comparison and the walkthroughs](tutorials/README.html)**
 
 ---
 
@@ -16,10 +16,10 @@ the commands that get past it.
 
 | Guide | |
 |---|---|
-| **[arra-memory-lab](tutorials/one-click-install/README.md)** | The full worked example — 19 screenshots, GitHub → Cloudflare → claude.ai. Includes the three independent reasons its Deploy button cannot finish, and the two commands that do. |
-| **[digger-node](tutorials/digger-node/README.md)** | The other working one-click. Same OAuth shape, a different 19-tool vocabulary. |
-| **[thor-memory](tutorials/thor-memory/README.md)** | The 19-tool original. No Deploy button — it installs as a Home Assistant add-on, and its ingress path cannot serve MCP. |
-| **[Connecting to claude.ai](tutorials/connect-claude-ai.md)** | The connector flow itself, shared by all of them. |
+| **[arra-memory-lab](tutorials/one-click-install/README.html)** | The full worked example — 19 screenshots, GitHub → Cloudflare → claude.ai. Includes the three independent reasons its Deploy button cannot finish, and the two commands that do. |
+| **[digger-node](tutorials/digger-node/README.html)** | The other working one-click. Same OAuth shape, a different 19-tool vocabulary. |
+| **[thor-memory](tutorials/thor-memory/README.html)** | The 19-tool original. No Deploy button — it installs as a Home Assistant add-on, and its ingress path cannot serve MCP. |
+| **[Connecting to claude.ai](tutorials/connect-claude-ai.html)** | The connector flow itself, shared by all of them. |
 
 ---
 
