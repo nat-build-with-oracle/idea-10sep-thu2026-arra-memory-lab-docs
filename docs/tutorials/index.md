@@ -1,5 +1,7 @@
 # Memory on claude.ai — every server, every install path
 
+[ภาษาไทย](../th/tutorials/) · [← Home](../)
+
 The fleet runs **six memory servers**. All six are live, all six speak MCP, and all
 six connect to claude.ai the same way. They differ in three things that matter, and
 one of them will wake you up at 3am.

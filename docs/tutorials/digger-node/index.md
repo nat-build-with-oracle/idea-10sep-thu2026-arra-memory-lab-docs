@@ -1,6 +1,6 @@
 # digger-node — one-click install & claude.ai
 
-[← Memory on claude.ai](../) · [Connector flow](../connect-claude-ai.html) · [arra-memory-lab](../one-click-install/) · [thor-memory](../thor-memory/)
+[ภาษาไทย](../../th/tutorials/digger-node/) · [← Memory on claude.ai](../) · [Connector flow](../connect-claude-ai.html) · [arra-memory-lab](../one-click-install/) · [thor-memory](../thor-memory/)
 
 The fleet's other **working** Deploy to Cloudflare button. Same OAuth shape as
 `arra-memory-lab`, an entirely different tool vocabulary, and — unlike

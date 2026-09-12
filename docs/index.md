@@ -1,5 +1,7 @@
 # Memory servers on claude.ai — install guides
 
+[ภาษาไทย](th/)
+
 Step-by-step walkthroughs for deploying self-hosted **MCP memory servers** and
 connecting them to **claude.ai**, captured against real deployments with screenshots
 at every step.

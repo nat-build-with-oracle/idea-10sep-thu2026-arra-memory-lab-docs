@@ -1,6 +1,6 @@
 # Connecting a memory server to claude.ai
 
-[← Memory on claude.ai](./) · [arra-memory-lab](one-click-install/) · [digger-node](digger-node/) · [thor-memory](thor-memory/)
+[ภาษาไทย](th/tutorials/connect-claude-ai.html) · [← Memory on claude.ai](./) · [arra-memory-lab](one-click-install/) · [digger-node](digger-node/) · [thor-memory](thor-memory/)
 
 The connector flow, once, with screenshots. Every memory server in this fleet uses
 it — `arra-memory-lab`, `thor-memory`, `arra-memory`, `memory-lab-2sep`,

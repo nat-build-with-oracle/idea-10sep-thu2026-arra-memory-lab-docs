@@ -1,6 +1,6 @@
 # lanceglass — the demo you can open, and the database you have to run
 
-[← Memory on claude.ai](../) · [arra-memory-lab](../one-click-install/) · [digger-node](../digger-node/) · [thor-memory](../thor-memory/)
+[ภาษาไทย](../../th/tutorials/lanceglass/) · [← Memory on claude.ai](../) · [arra-memory-lab](../one-click-install/) · [digger-node](../digger-node/) · [thor-memory](../thor-memory/)
 
 Every other tutorial here ends with a **Deploy to Cloudflare** button and a server you
 can talk to. This one does not, and the reason is the most useful thing on the page.
