@@ -277,3 +277,17 @@ The running system and the hash table agree.
 > add-ons have no UI to put in a sidebar.
 >
 > **A panel is proof of presence. Absence of a panel is proof of nothing.**
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("pre > code.language-mermaid").forEach(function (code) {
+    var div = document.createElement("div");
+    div.className = "mermaid";
+    div.textContent = code.textContent;
+    code.parentElement.replaceWith(div);
+  });
+  mermaid.initialize({ startOnLoad: true, theme: "neutral" });
+});
+</script>
+

@@ -156,3 +156,17 @@ tgt=$(git grep -h -oE 'deploy\.workers\.cloudflare\.com/\?url=[^ )"]+' HEAD -- R
 >   that name. It cannot currently be redeployed or fixed.
 > - **Nothing verifies a deploy button.** Seven of thirteen are broken and all seven
 >   render correctly.
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("pre > code.language-mermaid").forEach(function (code) {
+    var div = document.createElement("div");
+    div.className = "mermaid";
+    div.textContent = code.textContent;
+    code.parentElement.replaceWith(div);
+  });
+  mermaid.initialize({ startOnLoad: true, theme: "neutral" });
+});
+</script>
+

@@ -507,3 +507,17 @@ this.
 
 *Captured with `/browser-tutorial` on 2026-09-10. Screenshots are of a real deploy;
 the token field is a password input and was masked at capture time.*
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("pre > code.language-mermaid").forEach(function (code) {
+    var div = document.createElement("div");
+    div.className = "mermaid";
+    div.textContent = code.textContent;
+    code.parentElement.replaceWith(div);
+  });
+  mermaid.initialize({ startOnLoad: true, theme: "neutral" });
+});
+</script>
+

@@ -140,3 +140,17 @@ still names `Soul-Brews-Studio/digger-node`. Anyone following it installs a
 content/taxonomy store when they wanted a trace store.
 
 If you are here from `trace-node`, that is why.
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("pre > code.language-mermaid").forEach(function (code) {
+    var div = document.createElement("div");
+    div.className = "mermaid";
+    div.textContent = code.textContent;
+    code.parentElement.replaceWith(div);
+  });
+  mermaid.initialize({ startOnLoad: true, theme: "neutral" });
+});
+</script>
+
